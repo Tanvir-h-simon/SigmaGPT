@@ -1,0 +1,27 @@
+{
+  "name": "sigmagpt",
+  "version": "1.0.0",
+  "description": "An application using OpenAI API",
+  "homepage": "https://github.com/Tanvir-h-simon/SigmaGPT#readme",
+  "bugs": {
+    "url": "https://github.com/Tanvir-h-simon/SigmaGPT/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tanvir-h-simon/SigmaGPT.git"
+  },
+  "license": "ISC",
+  "author": "Tanvir Hossain",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "test": "npm run dev"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "moongose": "^1.0.0",
+    "openai": "^6.42.0"
+  }
+}

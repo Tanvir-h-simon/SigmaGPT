@@ -1,0 +1,68 @@
+/* ─── Design Tokens ─── */
+:root {
+    --bg-main:        #212121;
+    --bg-sidebar:     #171717;
+    --bg-input:       #2f2f2f;
+    --bg-user-msg:    #2f2f2f;
+    --bg-hover:       rgba(255, 255, 255, 0.07);
+    --bg-active:      rgba(255, 255, 255, 0.1);
+
+    --text-primary:   #ececec;
+    --text-secondary: #8e8ea0;
+    --text-faint:     #565869;
+
+    --accent:         #10a37f;
+    --accent-hover:   #0d9268;
+    --accent-muted:   rgba(16, 163, 127, 0.14);
+
+    --border:         rgba(255, 255, 255, 0.08);
+
+    --radius-sm:  6px;
+    --radius-md:  10px;
+    --radius-lg:  14px;
+    --radius-xl:  20px;
+    --radius-pill:9999px;
+
+    --font: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+}
+
+/* ─── Layout ─── */
+.app {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+    background: var(--bg-main);
+    color: var(--text-primary);
+    font-family: var(--font);
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-width: 0;
+    background: var(--bg-main);
+}
+
+/* ─── App-level loading ─── */
+.app-loading {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-main);
+}
+
+.app-spinner {
+    width: 28px;
+    height: 28px;
+    border: 2.5px solid rgba(255, 255, 255, 0.1);
+    border-top-color: var(--text-secondary);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}

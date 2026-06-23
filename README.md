@@ -47,6 +47,9 @@ A full-stack AI chat application built with React and Node.js, powered by the Op
 ```
 SigmaGPT/
 ├── server.js              # Express app entry point
+├── Dockerfile             # Backend container build recipe
+├── docker-compose.yml     # Orchestrates backend + frontend containers
+├── .dockerignore          # Excludes node_modules and .env from backend image
 ├── routes/
 │   ├── auth.js            # POST /signup, /login, /logout · GET /me
 │   └── chat.js            # POST /chat · GET|DELETE /threads/:id
@@ -56,6 +59,9 @@ SigmaGPT/
 ├── utils/
 │   └── openai.js          # OpenAI API client (fetch-based)
 └── frontend/              # Vite + React SPA
+    ├── Dockerfile         # Two-stage build: Node compiles → Nginx serves
+    ├── nginx.conf         # Serves static files + proxies /api to backend
+    ├── .dockerignore      # Excludes node_modules and dist from frontend image
     └── src/
         ├── App.jsx        # Root state management and API calls
         ├── Auth.jsx       # Login / signup form
@@ -68,6 +74,80 @@ SigmaGPT/
 ---
 
 ## Getting Started
+
+### Environment Variables
+
+Create a `.env` file in the project root before running either method:
+
+```env
+MONGO_ATLAS_URL=your_mongodb_connection_string
+OPENAI_API_KEY=your_openai_api_key
+JWT_SECRET=your_jwt_secret
+PORT=3000
+```
+
+---
+
+## Running with Docker (Recommended)
+
+### Prerequisites
+- [Docker Desktop](https://www.docker.com/products/docker-desktop)
+- MongoDB Atlas URI
+- OpenAI API Key
+
+### Start
+
+```bash
+docker compose up -d
+```
+
+That's it. Both the frontend and backend start automatically.
+
+| Service | URL |
+|---|---|
+| Frontend | http://localhost:80 |
+| Backend API | http://localhost:3000 |
+
+### Common Commands
+
+```bash
+# Start in background
+docker compose up -d
+
+# Stop all containers
+docker compose down
+
+# Rebuild after code changes
+docker compose up --build -d
+
+# View live logs
+docker compose logs -f
+
+# View logs for one service
+docker compose logs -f backend
+```
+
+### How it works
+
+```
+Browser → Nginx (port 80)
+           ├── /* → serves React static files
+           └── /api/* → proxied to backend container (port 3000)
+                         └── connects to MongoDB Atlas (cloud)
+```
+
+### Docker Hub
+
+Pre-built images are available on Docker Hub:
+
+```bash
+docker pull tanvirhsimon/sigmagpt-backend
+docker pull tanvirhsimon/sigmagpt-frontend
+```
+
+---
+
+## Running Manually (Without Docker)
 
 ### Prerequisites
 - Node.js 18+
@@ -88,19 +168,7 @@ npm install
 cd frontend && npm install && cd ..
 ```
 
-### Environment Variables
-
-Create a `.env` file in the project root:
-
-```env
-MONGO_ATLAS_URL=your_mongodb_connection_string
-OPENAI_API_KEY=your_openai_api_key
-JWT_SECRET=your_jwt_secret
-CLIENT_URL=http://localhost:5173
-PORT=3000
-```
-
-### Running the App
+Add `CLIENT_URL=http://localhost:5173` to your `.env` file, then:
 
 ```bash
 # Start the backend (from root)

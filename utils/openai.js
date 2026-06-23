@@ -15,6 +15,9 @@ const getAIResponse = async (messages, model = 'gpt-4o-mini') => {
     try {
         const response = await fetch('https://api.openai.com/v1/responses', options);
         const data = await response.json();
+        if (!data.output?.[0]) {
+            throw new Error(`OpenAI error: ${JSON.stringify(data)}`);
+        }
         return data.output[0].content[0].text;
     } catch (error) {
         console.error('Error:', error);
